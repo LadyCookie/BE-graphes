@@ -30,6 +30,37 @@ public class Path {
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
+        
+        Arc bestArc;
+        Node futureNode;
+        
+        double tempsArc;
+        double tempsMin;
+        
+        boolean arcExist;
+        
+        for (Node currentNode : nodes) {
+        	futureNode=nodes.get(nodes.indexOf(currentNode)+1);
+        	tempsMin=0;
+        	arcExist=false;
+        	for (Arc currentArc : currentNode.getSuccessors()) {
+        		if(currentArc.getDestination() == futureNode) {
+        			arcExist=true;
+        			tempsArc=currentArc.getMinimumTravelTime();
+        			if( (tempsArc < tempsMin) || (tempsMin==0) ) {
+        				tempsMin=tempsArc;
+        				bestArc=currentArc;
+        			} 
+        		}
+        	}
+        	if(arcExist) {
+        		arcs.add(bestArc); 
+        	}
+        	else {
+        		throw new IllegalArgumentException("Deux noeuds ou plus ne sont pas reliés entre eux");
+        	}
+        	
+    	}
         // TODO:
         return new Path(graph, arcs);
     }
