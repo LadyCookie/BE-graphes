@@ -187,8 +187,15 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public boolean isValid() {
-        // TODO:
-        return false;
+        boolean valid = false;
+        if (isEmpty() ) { //
+        	valid = true;
+        } else if (getArcs().size() == 0) { // sinon, si la liste d'arc est vide
+        	valid = true;
+    	} else if () {
+    		valid = true;
+    	}
+        return valid;
     }
 
     /**
@@ -199,8 +206,11 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public float getLength() {
-        // TODO:
-        return 0;
+    	float len = 0;
+    	for (Arc arc : this.arcs) {
+    		len = len + arc.getLength();
+    	}
+    	return len;
     }
 
     /**
@@ -214,8 +224,11 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public double getTravelTime(double speed) {
-        // TODO:
-        return 0;
+    	double time = 0;
+    	for (Arc arc : this.arcs) {
+    		time = time + arc.getTravelTime(speed);
+    	}
+    	return time;
     }
 
     /**
@@ -227,8 +240,11 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public double getMinimumTravelTime() {
-        // TODO:
-        return 0;
+    	double time = 0;
+    	for (Arc arc : this.arcs) {
+    		time = time + arc.getMinimumTravelTime();
+    	}
+    	return time;
     }
 
 }
