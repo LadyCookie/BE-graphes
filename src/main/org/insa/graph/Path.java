@@ -2,6 +2,7 @@ package org.insa.graph;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -31,34 +32,33 @@ public class Path {
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
         
-        Arc bestArc;
-        Node futureNode;
+        Iterator<Node> itNode = nodes.iterator();
+        Node currentNode = itNode.next();
         
-        double tempsArc;
-        double tempsMin;
         
-        boolean arcExist;
         
-        for (Node currentNode : nodes) {
-        	futureNode=nodes.get(nodes.indexOf(currentNode)+1);
-        	tempsMin=0;
-        	arcExist=false;
+        while (itNode.hasNext()) {
+        	Node futureNode = itNode.next();   	
+            Arc bestArc = null;
+                        
+            double tempsMin = Double.POSITIVE_INFINITY;
+                        
         	for (Arc currentArc : currentNode.getSuccessors()) {
         		if(currentArc.getDestination() == futureNode) {
-        			arcExist=true;
-        			tempsArc=currentArc.getMinimumTravelTime();
-        			if( (tempsArc < tempsMin) || (tempsMin==0) ) {
+        			double tempsArc = currentArc.getMinimumTravelTime();
+        			if(tempsArc < tempsMin) {
         				tempsMin=tempsArc;
         				bestArc=currentArc;
         			} 
         		}
         	}
-        	if(arcExist) {
+        	if(bestArc != null) {
         		arcs.add(bestArc); 
         	}
         	else {
         		throw new IllegalArgumentException("Deux noeuds ou plus ne sont pas reliés entre eux");
         	}
+        	currentNode = futureNode;
         	
     	}
         // TODO:
@@ -82,6 +82,36 @@ public class Path {
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
+        
+        Iterator<Node> itNode = nodes.iterator();
+        Node currentNode = itNode.next();
+        
+        
+        
+        while (itNode.hasNext()) {
+        	Node futureNode = itNode.next();   	
+            Arc bestArc = null;
+                        
+            double DistMin = Double.POSITIVE_INFINITY;
+                        
+        	for (Arc currentArc : currentNode.getSuccessors()) {
+        		if(currentArc.getDestination() == futureNode) {
+        			double DistArc = currentArc.getLength();
+        			if(DistArc < DistMin) {
+        				DistMin=DistArc;
+        				bestArc=currentArc;
+        			} 
+        		}
+        	}
+        	if(bestArc != null) {
+        		arcs.add(bestArc); 
+        	}
+        	else {
+        		throw new IllegalArgumentException("Deux noeuds ou plus ne sont pas reliés entre eux");
+        	}
+        	currentNode = futureNode;
+        }
+        	
         // TODO:
         return new Path(graph, arcs);
     }
