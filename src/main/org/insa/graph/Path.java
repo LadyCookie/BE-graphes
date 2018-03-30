@@ -31,38 +31,45 @@ public class Path {
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
+        Path result;
         
         Iterator<Node> itNode = nodes.iterator();
-        Node currentNode = itNode.next();
         
-        
-        
-        while (itNode.hasNext()) {
-        	Node futureNode = itNode.next();   	
-            Arc bestArc = null;
-                        
-            double tempsMin = Double.POSITIVE_INFINITY;
-                        
-        	for (Arc currentArc: currentNode) {
-        		if(currentArc.getDestination() == futureNode) {
-        			double tempsArc = currentArc.getMinimumTravelTime();
-        			if(tempsArc < tempsMin) {
-        				tempsMin=tempsArc;
-        				bestArc=currentArc;
-        			} 
-        		}
-        	}
-        	if(bestArc != null) {
-        		arcs.add(bestArc); 
-        	}
-        	else {
-        		throw new IllegalArgumentException("Deux noeuds ou plus ne sont pas reliÃ©s entre eux");
-        	}
-        	currentNode = futureNode;
-        	
-    	}
+        if(nodes.size()==0) {
+        	result=new Path(graph);
+        }
+        else if(nodes.size()==1) {
+        	result=new Path(graph,itNode.next());
+        }
+        else {  
+        	Node currentNode = itNode.next();
+	        while (itNode.hasNext()) {
+	        	Node futureNode = itNode.next();   	
+	            Arc bestArc = null;
+	                        
+	            double tempsMin = Double.POSITIVE_INFINITY;
+	                        
+	        	for (Arc currentArc: currentNode) {
+	        		if(currentArc.getDestination() == futureNode) {
+	        			double tempsArc = currentArc.getMinimumTravelTime();
+	        			if(tempsArc < tempsMin) {
+	        				tempsMin=tempsArc;
+	        				bestArc=currentArc;
+	        			} 
+	        		}
+	        	}
+	        	if(bestArc != null) {
+	        		arcs.add(bestArc); 
+	        	}
+	        	else {
+	        		throw new IllegalArgumentException("Deux noeuds ou plus ne sont pas reliÃ©s entre eux");
+	        	}
+	        	currentNode = futureNode;   	
+	    	}
+	        result=new Path(graph, arcs);
+        }
         // TODO:
-        return new Path(graph, arcs);
+        return result;
     }
 
     /**
@@ -82,38 +89,46 @@ public class Path {
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
+        Path result;
         
         Iterator<Node> itNode = nodes.iterator();
-        Node currentNode = itNode.next();
+              
         
-        
-        
-        while (itNode.hasNext()) {
-        	Node futureNode = itNode.next();   	
-            Arc bestArc = null;
-                        
-            double DistMin = Double.POSITIVE_INFINITY;
-                        
-        	for (Arc currentArc: currentNode) {
-        		if(currentArc.getDestination() == futureNode) {
-        			double DistArc = currentArc.getLength();
-        			if(DistArc < DistMin) {
-        				DistMin=DistArc;
-        				bestArc=currentArc;
-        			} 
-        		}
-        	}
-        	if(bestArc != null) {
-        		arcs.add(bestArc); 
-        	}
-        	else {
-        		throw new IllegalArgumentException("Deux noeuds ou plus ne sont pas reliÃ©s entre eux");
-        	}
-        	currentNode = futureNode;
+        if(nodes.size()==0) {
+        	result=new Path(graph);
         }
-        	
+        else if(nodes.size()==1) {
+        	result=new Path(graph,itNode.next());
+        }
+        else {
+        	Node currentNode = itNode.next();  
+	        while (itNode.hasNext()) {
+	        	Node futureNode = itNode.next();   	
+	            Arc bestArc = null;
+	                        
+	            double DistMin = Double.POSITIVE_INFINITY;
+	                        
+	        	for (Arc currentArc: currentNode) {
+	        		if(currentArc.getDestination() == futureNode) {
+	        			double DistArc = currentArc.getLength();
+	        			if(DistArc < DistMin) {
+	        				DistMin=DistArc;
+	        				bestArc=currentArc;
+	        			} 
+	        		}
+	        	}
+	        	if(bestArc != null) {
+	        		arcs.add(bestArc); 
+	        	}
+	        	else {
+	        		throw new IllegalArgumentException("Deux noeuds ou plus ne sont pas reliÃ©s entre eux");
+	        	}
+	        	currentNode = futureNode;
+	        }
+	        result=new Path(graph, arcs);
+        }
         // TODO
-        return new Path(graph, arcs);
+        return result;
     }
 
     /**
@@ -264,12 +279,12 @@ public class Path {
         	valid = true;
     	} else{
     		valid = true;
-    		//on crée un itérateur
+    		//on crï¿½e un itï¿½rateur
     		Iterator <Arc> iterateur = this.arcs.iterator();
     		Arc arc_actuel = iterateur.next(); //on stocke le node de fin de l'arc actuel
 			Node arc_actuel_node_fin = arc_actuel.getDestination() ;
     		while(iterateur.hasNext()) {
-    			Arc prochain_arc = iterateur.next(); //on stocke le node de début du prochain arc
+    			Arc prochain_arc = iterateur.next(); //on stocke le node de dï¿½but du prochain arc
     			Node arc_prochain_node_debut = prochain_arc.getOrigin();
     			if (arc_actuel_node_fin != arc_prochain_node_debut) {
     				valid = false;
