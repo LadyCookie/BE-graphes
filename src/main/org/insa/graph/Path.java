@@ -43,7 +43,7 @@ public class Path {
                         
             double tempsMin = Double.POSITIVE_INFINITY;
                         
-        	for (Arc currentArc : currentNode.getSuccessors()) {
+        	for (Arc currentArc: currentNode) {
         		if(currentArc.getDestination() == futureNode) {
         			double tempsArc = currentArc.getMinimumTravelTime();
         			if(tempsArc < tempsMin) {
@@ -94,7 +94,7 @@ public class Path {
                         
             double DistMin = Double.POSITIVE_INFINITY;
                         
-        	for (Arc currentArc : currentNode.getSuccessors()) {
+        	for (Arc currentArc: currentNode) {
         		if(currentArc.getDestination() == futureNode) {
         			double DistArc = currentArc.getLength();
         			if(DistArc < DistMin) {
@@ -112,7 +112,7 @@ public class Path {
         	currentNode = futureNode;
         }
         	
-        // TODO:
+        // TODO
         return new Path(graph, arcs);
     }
 
