@@ -1,1 +1,14 @@
+org.insa.algo
+org.insa.algo.carpooling
+org.insa.algo.packageswitch
+org.insa.algo.shortestpath
+org.insa.algo.utils
+org.insa.algo.weakconnectivity
+org.insa.base
 org.insa.graph
+org.insa.graph.io
+org.insa.graphics
+org.insa.graphics.drawing
+org.insa.graphics.drawing.components
+org.insa.graphics.drawing.overlays
+org.insa.graphics.utils
