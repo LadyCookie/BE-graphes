@@ -16,6 +16,7 @@ import org.insa.graph.io.GraphReader;
 import org.insa.graph.io.PathReader;
 import org.insa.graphics.drawing.Drawing;
 import org.insa.graphics.drawing.components.BasicDrawing;
+import org.insa.graph.io.BinaryPathReader;
 
 public class Launch {
 
@@ -53,22 +54,24 @@ public class Launch {
         GraphReader reader = new BinaryGraphReader(
                 new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
 
-        // TODO: Read the graph.
-        Graph graph = null;
+        //DO TODO Read the graph.
+        Graph graph = reader.read();
 
-        // Create the drawing:
+        // Create the drawing
         Drawing drawing = createDrawing();
 
-        // TODO: Draw the graph on the drawing.
-
+        // DO TODO Draw the graph on the drawing.
+        drawing.drawGraph(graph);
+        
         // TODO: Create a PathReader.
-        PathReader pathReader = null;
+        PathReader pathReader = new BinaryPathReader(new DataInputStream(new BufferedInputStream(new FileInputStream(pathName))));
 
-        // TODO: Read the path.
-        Path path = null;
+        //DO TODO: Read the path.
+        Path path = pathReader.readPath(graph);
 
-        // TODO: Draw the path.
-
+        //DO TODO: Draw the path.
+        drawing.drawPath(path);
+        
     }
 
 }
