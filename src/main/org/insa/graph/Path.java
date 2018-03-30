@@ -273,9 +273,9 @@ public class Path {
      */
     public boolean isValid() {
         boolean valid = false;
-        if (isEmpty() ) { //
+        if (this.isEmpty() ) { //
         	valid = true;
-        } else if (getArcs().size() == 0) { // sinon, si la liste d'arc est vide
+        } else if (this.getArcs().size() == 0) { // sinon, si la liste d'arc est vide
         	valid = true;
     	} else{
     		valid = true;
