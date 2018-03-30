@@ -262,8 +262,20 @@ public class Path {
         	valid = true;
         } else if (getArcs().size() == 0) { // sinon, si la liste d'arc est vide
         	valid = true;
-    	} else if () {
+    	} else{
     		valid = true;
+    		//on crée un itérateur
+    		Iterator <Arc> iterateur = this.arcs.iterator();
+    		Arc arc_actuel = iterateur.next(); //on stocke le node de fin de l'arc actuel
+			Node arc_actuel_node_fin = arc_actuel.getDestination() ;
+    		while(iterateur.hasNext()) {
+    			Arc prochain_arc = iterateur.next(); //on stocke le node de début du prochain arc
+    			Node arc_prochain_node_debut = prochain_arc.getOrigin();
+    			if (arc_actuel_node_fin != arc_prochain_node_debut) {
+    				valid = false;
+    			}
+    			arc_actuel_node_fin = prochain_arc.getDestination();
+    		}
     	}
         return valid;
     }
