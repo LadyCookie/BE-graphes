@@ -143,17 +143,36 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     }
 
     @Override
-    public void remove(E x) throws ElementNotFoundException { //ne passe pas tous les tests
+    public void remove(E x) throws ElementNotFoundException { 
     	if(this.isEmpty()) {
-        	throw new ElementNotFoundException("Le tas est vide");
+        	throw new ElementNotFoundException(x);
         }
         else {
-        	boolean enleve=this.array.remove(x);
-        	if(enleve==true) {
-        		this.currentSize--;
+        	this.print();
+        	System.out.println( x);
+        	
+        	
+        	int index=this.array.indexOf(x);
+        	System.out.println("index " + index);
+        	System.out.println("taille "+this.currentSize);
+        	
+        	if(index!=-1 && index<this.currentSize) {
+        		int ileft = index_left(index);
+        		int iright = ileft+1;
+        		
+        		
+        		E dernier=this.array.get(--this.currentSize);//le dernier élément
+        		this.array.set(index, dernier);
+        		if(this.array.get(index_parent(index)).compareTo(dernier) > 0) { //on vérifier si le père est plus grand
+        			this.percolateUp(index);
+        		}
+        		else if((ileft < this.currentSize && this.array.get(ileft).compareTo(dernier) < 0 ) || (iright < this.currentSize && this.array.get(iright).compareTo(dernier) < 0)){
+        			this.percolateDown(index);
+        		}
         	}
         	else {
-        		throw new ElementNotFoundException("L'élément n'est pas présent dans le tas");
+        		System.out.println("exception");
+        		throw new ElementNotFoundException(x);
         	}
         }
     }
@@ -183,7 +202,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         System.out.println();
 
         for (int i = 0; i < this.currentSize; i++) {
-            System.out.println(this.array.get(i).toString());
+            System.out.print(this.array.get(i).toString()+ " ");
         }
 
         System.out.println();
