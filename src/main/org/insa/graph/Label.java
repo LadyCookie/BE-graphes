@@ -1,6 +1,6 @@
 package org.insa.graph;
 
-public class Label {
+public class Label implements Comparable<Label>{
 	
 	private double etiquette;
 	
@@ -19,6 +19,10 @@ public class Label {
 	
 	public Node getNode() {
 		return this.node;
+	}
+	
+	public int compareTo(Label autre) { //renvoie un entier positif si this > autre
+		return (int)(this.etiquette-autre.getLabel());
 	}
 	
 }
