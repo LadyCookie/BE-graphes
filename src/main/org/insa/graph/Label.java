@@ -21,8 +21,16 @@ public class Label implements Comparable<Label>{
 		return this.node;
 	}
 	
+	public void setLabel(double etiquette) {
+		this.etiquette=etiquette;
+	}
+	
 	public int compareTo(Label autre) { //renvoie un entier positif si this > autre
 		return (int)(this.etiquette-autre.getLabel());
+	}
+	
+	public boolean compareNode(Label autre) {
+		return(this.node.getId()==autre.getNode().getId());
 	}
 	
 }
