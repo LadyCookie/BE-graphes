@@ -4,33 +4,62 @@ public class Label implements Comparable<Label>{
 	
 	private double etiquette;
 	
-	private Node node;
+	private Node nodeCourant;
 	
+	private Node nodePere;
 	
-	public Label(double etiquette, Node node) {
+	private boolean marque;
+	
+	public Label(double etiquette, Node nodeCourant,Node nodePere, boolean marque) {
 		this.etiquette=etiquette;
-		this.node=node;
+		this.nodeCourant=nodeCourant;
+		this.nodePere=nodePere;
+		this.marque=marque;
 	}
 
 	
-	public double getLabel() {
+	public double getEtiquette() {
 		return this.etiquette;
 	}
 	
-	public Node getNode() {
-		return this.node;
+	public Node getNodeCourant() {
+		return this.nodeCourant;
 	}
 	
-	public void setLabel(double etiquette) {
+	public Node getNodePere() {
+		return this.nodePere;
+	}
+	
+	public boolean getMarque() {
+		return this.marque;
+	}
+	
+	
+	
+	public void setEtiquette(double etiquette) {
 		this.etiquette=etiquette;
 	}
 	
-	public int compareTo(Label autre) { //renvoie un entier positif si this > autre
-		return (int)(this.etiquette-autre.getLabel());
+	public void setNodeCourant(Node node) {
+		this.nodeCourant=node;
 	}
 	
-	public boolean compareNode(Label autre) {
-		return(this.node.getId()==autre.getNode().getId());
+	public void setNodePere(Node node) {
+		this.nodePere=node;
 	}
+	
+	public void setMarque(boolean marque) {
+		this.marque=marque;
+	}
+	
+	
+	
+	public int compareTo(Label autre) { //renvoie un entier positif si this > autre
+		return (int)(this.etiquette-autre.getEtiquette());
+	}
+	
+	/*public boolean compareNode(Label autre) {
+		return(this.node.getId()==autre.getNode().getId());
+	}*/
 	
 }

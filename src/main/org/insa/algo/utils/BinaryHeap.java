@@ -152,6 +152,8 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         	
         	int index=this.array.indexOf(x);
         	
+        	
+        	
         	if(index!=-1 && index<this.currentSize) {
         		int ileft = index_left(index);
         		int iright = ileft+1;
