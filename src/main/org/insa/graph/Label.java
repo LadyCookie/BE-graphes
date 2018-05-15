@@ -2,13 +2,13 @@ package org.insa.graph;
 
 public class Label implements Comparable<Label>{
 	
-	private double etiquette;
+	protected double etiquette;
 	
-	private Node nodeCourant;
+	protected Node nodeCourant;
 	
-	private Node nodePere;
+	protected Node nodePere;
 	
-	private boolean marque;
+	protected boolean marque;
 	
 	public Label(double etiquette, Node nodeCourant,Node nodePere, boolean marque) {
 		this.etiquette=etiquette;
