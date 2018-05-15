@@ -2,23 +2,28 @@ package org.insa.graph;
 
 public class LabelStar extends Label{
 
-	protected float coutEstime;
+	protected double coutEstime;
 	
-	public LabelStar (double etiquette, Node nodeCourant,Node nodePere, boolean marque, float cost) {
+	public LabelStar (double etiquette, Node nodeCourant,Node nodePere, boolean marque, double cost) {
 		super(etiquette,nodeCourant,nodePere,marque);
 		this.coutEstime=cost;
 	}
 	
-	public float getCost() {
+	public double getCost() {
 		return this.coutEstime;
 	}
 	
-	public void setCost(float cost) {
+	public void setCost(double cost) {
 		this.coutEstime=cost;
 	}
 	
 	public int compareTo(LabelStar autre) { //renvoie un entier positif si this > autre
-		return (int)(this.etiquette+this.coutEstime-autre.getEtiquette()-autre.getCost());
+			
+		int result= (int)(this.etiquette+this.coutEstime-autre.getEtiquette()-autre.getCost());
+		if(result==0) {
+			result=(int)(this.coutEstime-autre.getCost());
+		}
+		return result;
 	}
 	
 	
