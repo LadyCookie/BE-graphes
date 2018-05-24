@@ -7,6 +7,7 @@ import org.insa.algo.AbstractSolution.Status;
 import org.insa.algo.utils.BinaryHeap;
 import org.insa.graph.Arc;
 import org.insa.graph.Graph;
+import org.insa.graph.Label;
 import org.insa.graph.LabelStar;
 import org.insa.graph.Node;
 import org.insa.graph.Path;
@@ -28,19 +29,19 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         
         
         
-        ArrayList<LabelStar> couts=new ArrayList<LabelStar>(graph.size());
+        ArrayList<Label> couts=new ArrayList<Label>(graph.size());
 
         for(int i=0;i<graph.size();i++) {
         	couts.add(null);
         }
         
         //public BinaryHeap(BinaryHeap<E> heap)
-        BinaryHeap<LabelStar> file_traitement=new BinaryHeap<LabelStar>();
+        BinaryHeap<Label> file_traitement=new BinaryHeap<Label>();
         
         //initialisation des coûts
         
         Node minimum=data.getOrigin();
-        LabelStar currentL=new LabelStar(0,minimum,null,true,0);
+        Label currentL=new LabelStar(0,minimum,null,true,0);
         couts.set(minimum.getId(),currentL);
         
         
