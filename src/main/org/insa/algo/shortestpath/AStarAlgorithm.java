@@ -83,6 +83,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         		currentL=file_traitement.deleteMin(); //On cherche le noeud à traiter en priorité et on l'enlève du tas, ce qui équivaut à marquer le sommet
         		minimum=currentL.getNodeCourant(); //Permet de voir si on traite la destination (ie fin de l'algorithme)
         		couts.get(minimum.getId()).setMarque(true);
+        		notifyNodeReached(currentL.getNodeCourant());
         		currentL.setMarque(true);
         	}
         }
