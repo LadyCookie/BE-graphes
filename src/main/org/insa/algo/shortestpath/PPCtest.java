@@ -3,6 +3,7 @@ package org.insa.algo.shortestpath;
 
 import org.insa.graph.*;
 import org.insa.algo.*;
+import org.insa.algo.AbstractSolution.Status;
 import org.insa.algo.shortestpath.*; 
 import org.insa.algo.ArcInspector;
 import org.insa.algo.ArcInspectorFactory;
@@ -67,7 +68,7 @@ public class PPCtest{
   //Test Dijkstra
     @Test
     public  void Testdisj() {
-    	System.out.println("Dijkstra Algorithm: ");  
+    	System.out.println("Test Dijkstra avec oracle ");  
         for(int origin=0;origin<nodes.length;origin++) {
         	for(int dest=0;dest<nodes.length;dest++) {
         		ShortestPathData data=new ShortestPathData(graph,nodes[origin],nodes[dest],ArcInspectorFactory.getAllFilters().get(0));
@@ -103,12 +104,11 @@ public class PPCtest{
     }
     
     @Test
-    public void Testdisj_sousChemin() {
-    	System.out.println("Dijkstra Algorithm: "); 
+    public void Testdisj_CoutSousChemin() {
+    	System.out.println("Test Cout des sousChemin sans oracle: "); 
     	
     	Path [][] TabPPC=new Path[nodes.length][nodes.length];
     			
-    	ArrayList<Label> couts=new ArrayList<Label>(graph.size());
         for(int origin=0;origin<nodes.length;origin++) {
         	for(int dest=0;dest<nodes.length;dest++) {
         		
@@ -123,33 +123,57 @@ public class PPCtest{
         	}
         }
         //Pour tous les combinaison origin/destination possibles dans le graphe
+        boolean OK=true;
         for(int origin=0;origin<nodes.length;origin++) {
         	for(int dest=0;dest<nodes.length;dest++) {
         		
         		Path Test=TabPPC[origin][dest];
-        		Iterator<Arc> successeur=Test.getArcs().iterator();
-        		boolean OK;
-        		
-        		//On construit un tableau contenant tous les noeuds du chemin trouvé
-        		ArrayList<Node> TabNoeud=new ArrayList<Node>(Test.size());
-        		
-        		int i=0;
-        		while(successeur.hasNext()) {
-        			Arc SousChemin=successeur.next();
-        			TabNoeud.set(i,SousChemin.getOrigin());
-        			i++;
-        		}
-        		TabNoeud.set(Test.size()-1,Test.getDestination());        		
-        		//Fin de la liste
-        		
-        		Path SemiOracle=Path.createShortestPathFromNodes(graph,TabNoeud);
-        		
-        		if(!(SemiOracle.getLength()==Test.getLength())) {
-        			break;
+        		if(Test!=null) {
+	        		Iterator<Arc> successeur=Test.getArcs().iterator();
+	        		
+	        		//On construit un tableau contenant tous les noeuds du chemin trouvé
+	        		ArrayList<Node> TabNoeud=new ArrayList<Node>(Test.size());
+	        		
+	        		while(successeur.hasNext()) {
+	        			Arc SousChemin=successeur.next();
+	        			TabNoeud.add(SousChemin.getOrigin());
+	        		}
+	        		TabNoeud.add(Test.getDestination());        		
+	        		//Fin de la liste
+	        		
+	        		Path SemiOracle=Path.createShortestPathFromNodes(graph,TabNoeud);
+	        		
+	        		if(!(SemiOracle.getLength()==Test.getLength())) {
+	        			System.out.println("Problème de cout...");
+	        			OK=false;
+	        		}
         		}
         	}
         }
+        if(OK) {
+        	System.out.println("Cout des sous chemin OK");
+        }
         
     }
+    
+    @Test
+    public void Testdisj_cout() {
+    	cheminInfaisable(3,4);
+    	cheminInfaisable(3,1);
+    }
+    
+    public void cheminInfaisable(int nbOrigin, int nbDest) {
+    	ShortestPathData data=new ShortestPathData(graph,nodes[nbOrigin],nodes[nbDest],ArcInspectorFactory.getAllFilters().get(0));
+    	DijkstraAlgorithm DJ= new DijkstraAlgorithm(data);
+		ShortestPathSolution solutionDJ=DJ.doRun();
+		
+		if(!(solutionDJ.getStatus()==Status.INFEASIBLE)) {
+			System.out.println("Chemin trouvé....");
+		}
+		else {
+			System.out.println("Chemin infaisable effectivement infaisable");
+		}
+    }
+    
     
 }

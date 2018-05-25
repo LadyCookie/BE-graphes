@@ -89,7 +89,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         */
         
         //Dans le cas où la solution existe
-        if(minimum==data.getDestination()) {
+        if(!(data.getOrigin()==data.getDestination()) && minimum==data.getDestination()) {
         	//On retrouve les sommets qui ont mené à la solution (dans le sens inverse malheureusement)
         	
         	ArrayList<Node> predecesseurs=new ArrayList<Node>();
