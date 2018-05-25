@@ -10,11 +10,8 @@ import org.insa.algo.ArcInspectorFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
-import org.insa.graph.Arc;
-import org.insa.graph.Graph;
-import org.insa.graph.Node;
-import org.insa.graph.RoadInformation;
 import org.insa.graph.RoadInformation.RoadType;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -73,41 +70,86 @@ public class PPCtest{
     	System.out.println("Dijkstra Algorithm: ");  
         for(int origin=0;origin<nodes.length;origin++) {
         	for(int dest=0;dest<nodes.length;dest++) {
-        		if(origin!=dest) {
-        			ShortestPathData data=new ShortestPathData(graph,nodes[origin],nodes[dest],ArcInspectorFactory.getAllFilters().get(0));
+        		ShortestPathData data=new ShortestPathData(graph,nodes[origin],nodes[dest],ArcInspectorFactory.getAllFilters().get(0));
         			
-        			DijkstraAlgorithm DJ= new DijkstraAlgorithm(data);
-        			ShortestPathSolution solutionDJ=DJ.doRun();
+        		DijkstraAlgorithm DJ= new DijkstraAlgorithm(data);
+        		ShortestPathSolution solutionDJ=DJ.doRun();
         			
-        			BellmanFordAlgorithm BF= new BellmanFordAlgorithm(data);
-        			ShortestPathSolution solutionBF=BF.doRun();
+        		BellmanFordAlgorithm BF= new BellmanFordAlgorithm(data);
+        		ShortestPathSolution solutionBF=BF.doRun();
         			
-        			Path cheminDJ=solutionDJ.getPath();
-        			Path cheminBF=solutionBF.getPath();
+        		Path cheminDJ=solutionDJ.getPath();
+        		Path cheminBF=solutionBF.getPath();
         			
         			
-	        		if(cheminDJ!=null && cheminDJ.isValid()) {
-	        			if(cheminDJ.getLength()==cheminBF.getLength()) {
-		        			float taille=cheminDJ.getLength();
-		        			Arc dernierArc=cheminDJ.getArcs().get(cheminDJ.getArcs().size()-1);
-		        			int pred=dernierArc.getOrigin().getId()+1;
-		        			System.out.print("| "+taille+",x"+pred+" |");
-	        			}
-	        			else {
-	        				break;
-	        			}
+	        	if(cheminDJ!=null && cheminDJ.isValid()) {
+	        		if(cheminDJ.getLength()==cheminBF.getLength()) {
+		        		float taille=cheminDJ.getLength();
+		        		Arc dernierArc=cheminDJ.getArcs().get(cheminDJ.getArcs().size()-1);
+		        		int pred=dernierArc.getOrigin().getId()+1;
+		        		System.out.print("| "+taille+",x"+pred+" |");
 	        		}
 	        		else {
-	            		System.out.print("|   -   |");
-	            	}
-
-        		}
-        		else {
-        			System.out.print("|   -   |");
-        		}
+	        			break;
+	        		}
+	        	}
+	        	else {
+	            	System.out.print("|   -   |");
+	            }
         	}
         	//saut à la ligne
         	System.out.println();
         }
     }
+    
+    @Test
+    public void Testdisj_sousChemin() {
+    	System.out.println("Dijkstra Algorithm: "); 
+    	
+    	Path [][] TabPPC=new Path[nodes.length][nodes.length];
+    			
+    	ArrayList<Label> couts=new ArrayList<Label>(graph.size());
+        for(int origin=0;origin<nodes.length;origin++) {
+        	for(int dest=0;dest<nodes.length;dest++) {
+        		
+        		ShortestPathData data=new ShortestPathData(graph,nodes[origin],nodes[dest],ArcInspectorFactory.getAllFilters().get(0));
+        			
+        		DijkstraAlgorithm DJ= new DijkstraAlgorithm(data);
+        		ShortestPathSolution solutionDJ=DJ.doRun();
+        			
+        		Path cheminDJ=solutionDJ.getPath();
+        		TabPPC[origin][dest]=cheminDJ;
+	        	
+        	}
+        }
+        //Pour tous les combinaison origin/destination possibles dans le graphe
+        for(int origin=0;origin<nodes.length;origin++) {
+        	for(int dest=0;dest<nodes.length;dest++) {
+        		
+        		Path Test=TabPPC[origin][dest];
+        		Iterator<Arc> successeur=Test.getArcs().iterator();
+        		boolean OK;
+        		
+        		//On construit un tableau contenant tous les noeuds du chemin trouvé
+        		ArrayList<Node> TabNoeud=new ArrayList<Node>(Test.size());
+        		
+        		int i=0;
+        		while(successeur.hasNext()) {
+        			Arc SousChemin=successeur.next();
+        			TabNoeud.set(i,SousChemin.getOrigin());
+        			i++;
+        		}
+        		TabNoeud.set(Test.size()-1,Test.getDestination());        		
+        		//Fin de la liste
+        		
+        		Path SemiOracle=Path.createShortestPathFromNodes(graph,TabNoeud);
+        		
+        		if(!(SemiOracle.getLength()==Test.getLength())) {
+        			break;
+        		}
+        	}
+        }
+        
+    }
+    
 }
