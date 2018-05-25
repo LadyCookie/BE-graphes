@@ -39,8 +39,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         couts.set(minimum.getId(),currentL);
         
         
-        boolean vide=false;
-        //à la première itération, minimum est égal à l'origine
+        boolean vide=(data.getOrigin()==data.getDestination());
+        //à la première itération, minimum est égal à l'origine except si l'origine est la destination
         
         while(minimum!=data.getDestination() && !vide) { //soit on s'apprêter à traiter la destination(inutile) soit on a déjà tout parcouru    
         	Node currentNode=currentL.getNodeCourant(); //On récupère le noeud(père) sur lequel on va travailler
