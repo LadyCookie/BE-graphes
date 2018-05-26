@@ -25,20 +25,20 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         ShortestPathSolution solution = null;
         
         Graph graph = data.getGraph();
-        final int nbNodes = graph.size();
-        
+        int NbNoeudMarque=0;
         
         
         ArrayList<Label> couts=new ArrayList<Label>(graph.size());
 
+        //initialiser les couts
         for(int i=0;i<graph.size();i++) {
         	couts.add(null);
         }
         
-        //public BinaryHeap(BinaryHeap<E> heap)
+        
         BinaryHeap<Label> file_traitement=new BinaryHeap<Label>();
         
-        //initialisation des coûts
+        //initialisation des couts
         
         Node minimum=data.getOrigin();
         Label currentL=new LabelStar(0,minimum,null,true,0);
@@ -46,7 +46,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         
         
         boolean vide=(data.getOrigin()==data.getDestination());
-        //à la première itération, minimum est égal à l'origine excpet si l'origine est la destination
+        //à la premi�re iteration, minimum est egal � l'origine sauf si l'origine est la destination
         
         while(minimum!=data.getDestination() && !vide) { //soit on s'apprêter à traiter la destination(inutile) soit on a déjà tout parcouru    
         	Node currentNode=currentL.getNodeCourant(); //On récupère le noeud(père) sur lequel on va travailler
@@ -85,15 +85,9 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         		couts.get(minimum.getId()).setMarque(true);
         		notifyNodeReached(currentL.getNodeCourant());
         		currentL.setMarque(true);
+        		NbNoeudMarque++;
         	}
         }
-        
-        //TESTS: J'affiche le tableau avec les labels
-        /*for (int i=0;i<nbNodes;i++) {
-        	System.out.println(couts.get(i).getNodeCourant().getId());
-        	System.out.println(couts.get(i).getEtiquette());
-        }
-        */
         
         //Dans le cas où la solution existe
         if(!(data.getOrigin()==data.getDestination()) && minimum==data.getDestination()) {
@@ -117,7 +111,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         	Path chemin=new Path(graph);
         	chemin=Path.createShortestPathFromNodes(graph,noeudsChemin);
 
-        	solution = new ShortestPathSolution(data, Status.OPTIMAL, chemin);
+        	solution = new ShortestPathSolution(data, Status.OPTIMAL, chemin,NbNoeudMarque);
         }
         //sinon on renvoie 
         else {

@@ -21,9 +21,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         ShortestPathSolution solution = null;
         
         Graph graph = data.getGraph();
-        final int nbNodes = graph.size();
-        
-        
+        int NbNoeudMarque=0;
         
         ArrayList<Label> couts=new ArrayList<Label>(graph.size());
 
@@ -81,15 +79,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		couts.get(minimum.getId()).setMarque(true);
         		notifyNodeReached(currentL.getNodeCourant());
         		currentL.setMarque(true);
+        		NbNoeudMarque++;
         	}
         }
-        
-        //TESTS: J'affiche le tableau avec les labels
-        /*for (int i=0;i<nbNodes;i++) {
-        	System.out.println(couts.get(i).getNodeCourant().getId());
-        	System.out.println(couts.get(i).getEtiquette());
-        }
-        */
         
         //Dans le cas où la solution existe
         if(!(data.getOrigin()==data.getDestination()) && minimum==data.getDestination()) {
@@ -113,7 +105,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	Path chemin=new Path(graph);
         	chemin=Path.createShortestPathFromNodes(graph,noeudsChemin);
 
-        	solution = new ShortestPathSolution(data, Status.OPTIMAL, chemin);
+        	solution = new ShortestPathSolution(data, Status.OPTIMAL, chemin,NbNoeudMarque);
         }
         //sinon on renvoie 
         else {

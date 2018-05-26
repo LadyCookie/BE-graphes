@@ -1,19 +1,35 @@
 package org.insa.algo.shortestpath;
 
 import org.insa.algo.AbstractInputData.Mode;
+import org.insa.algo.AbstractInputData;
 import org.insa.algo.AbstractSolution;
 import org.insa.graph.Arc;
 import org.insa.graph.Path;
 
 public class ShortestPathSolution extends AbstractSolution {
 
-    // Optimal solution.
+	 // Optimal solution.
     private Path path;
+
+    private int nombreSommetVisite;
+
+    public ShortestPathSolution(AbstractInputData data, Path path, int nombreSommetVisite) {
+        super(data);
+        this.path = path;
+        this.nombreSommetVisite = nombreSommetVisite;
+    }
+
+    public ShortestPathSolution(AbstractInputData data, Status status, Path path, int nombreSommetVisite) {
+        super(data, status);
+        this.path = path;
+        this.nombreSommetVisite = nombreSommetVisite;
+    }
 
     /**
      * {@inheritDoc}
      */
     public ShortestPathSolution(ShortestPathData data) {
+
         super(data);
     }
 
@@ -39,7 +55,6 @@ public class ShortestPathSolution extends AbstractSolution {
         super(data, status);
         this.path = path;
     }
-
     @Override
     public ShortestPathData getInputData() {
         return (ShortestPathData) super.getInputData();
@@ -76,5 +91,11 @@ public class ShortestPathSolution extends AbstractSolution {
         info += " in " + getSolvingTime().getSeconds() + " seconds.";
         return info;
     }
+    
+    public int getNombreSommetVisite() {
+        return nombreSommetVisite;
+    }
+
+	
 
 }
