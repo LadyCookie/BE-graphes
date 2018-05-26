@@ -8,7 +8,9 @@ import org.insa.algo.AbstractSolution.Status;
 import org.insa.algo.utils.BinaryHeap;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
-
+	
+	public int NbNoeudVisites=0;
+	
     public DijkstraAlgorithm(ShortestPathData data) {
         super(data);
     }
@@ -39,8 +41,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         couts.set(minimum.getId(),currentL);
         
         
-        boolean vide=false;
-        //à la première itération, minimum est égal à l'origine
+        boolean vide=(data.getOrigin()==data.getDestination());
+        //à la première itération, minimum est égal à l'origine except si l'origine est la destination
         
         while(minimum!=data.getDestination() && !vide) { //soit on s'apprêter à traiter la destination(inutile) soit on a déjà tout parcouru    
         	Node currentNode=currentL.getNodeCourant(); //On récupère le noeud(père) sur lequel on va travailler
@@ -77,6 +79,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		currentL=file_traitement.deleteMin(); //On cherche le noeud à traiter en priorité et on l'enlève du tas, ce qui équivaut à marquer le sommet
         		minimum=currentL.getNodeCourant(); //Permet de voir si on traite la destination (ie fin de l'algorithme)
         		couts.get(minimum.getId()).setMarque(true);
+        		notifyNodeReached(currentL.getNodeCourant());
         		currentL.setMarque(true);
         	}
         }
@@ -89,7 +92,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         */
         
         //Dans le cas où la solution existe
-        if(minimum==data.getDestination()) {
+        if(!(data.getOrigin()==data.getDestination()) && minimum==data.getDestination()) {
         	//On retrouve les sommets qui ont mené à la solution (dans le sens inverse malheureusement)
         	
         	ArrayList<Node> predecesseurs=new ArrayList<Node>();

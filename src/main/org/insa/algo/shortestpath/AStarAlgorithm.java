@@ -45,8 +45,8 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         couts.set(minimum.getId(),currentL);
         
         
-        boolean vide=false;
-        //à la première itération, minimum est égal à l'origine
+        boolean vide=(data.getOrigin()==data.getDestination());
+        //à la première itération, minimum est égal à l'origine excpet si l'origine est la destination
         
         while(minimum!=data.getDestination() && !vide) { //soit on s'apprêter à traiter la destination(inutile) soit on a déjà tout parcouru    
         	Node currentNode=currentL.getNodeCourant(); //On récupère le noeud(père) sur lequel on va travailler
@@ -83,6 +83,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         		currentL=file_traitement.deleteMin(); //On cherche le noeud à traiter en priorité et on l'enlève du tas, ce qui équivaut à marquer le sommet
         		minimum=currentL.getNodeCourant(); //Permet de voir si on traite la destination (ie fin de l'algorithme)
         		couts.get(minimum.getId()).setMarque(true);
+        		notifyNodeReached(currentL.getNodeCourant());
         		currentL.setMarque(true);
         	}
         }
@@ -95,7 +96,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         */
         
         //Dans le cas où la solution existe
-        if(minimum==data.getDestination()) {
+        if(!(data.getOrigin()==data.getDestination()) && minimum==data.getDestination()) {
         	//On retrouve les sommets qui ont mené à la solution (dans le sens inverse malheureusement)
         	
         	ArrayList<Node> predecesseurs=new ArrayList<Node>();
