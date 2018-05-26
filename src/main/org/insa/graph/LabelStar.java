@@ -17,11 +17,11 @@ public class LabelStar extends Label{
 		this.coutEstime=cost;
 	}
 	
-	public int compareTo(LabelStar autre) { //renvoie un entier positif si this > autre
-			
-		int result= (int)(this.etiquette+this.coutEstime-autre.getEtiquette()-autre.getCost());
+	public int compareTo(Label autre) { //renvoie un entier positif si this > autre
+		LabelStar autreStar=(LabelStar)autre;
+		int result= (int)(this.etiquette+this.coutEstime-autreStar.getEtiquette()-autreStar.getCost());
 		if(result==0) {
-			result=(int)(this.coutEstime-autre.getCost());
+			result=(int)(this.coutEstime-autreStar.getCost());
 		}
 		return result;
 	}
